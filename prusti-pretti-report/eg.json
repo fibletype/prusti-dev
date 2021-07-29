@@ -1,0 +1,181 @@
+{
+	"message": "[Prusti: verification error] postcondition might not hold.",
+	"code": null,
+	"level": "error",
+	"spans": [
+		{
+			"file_name": "/Users/ak/Developer/Projects/Lalambda/hackaton/test-prj/src/main.rs",
+			"byte_start": 233,
+			"byte_end": 243,
+			"line_start": 12,
+			"line_end": 12,
+			"column_start": 26,
+			"column_end": 36,
+			"is_primary": true,
+			"text": [
+				{
+					"text": "#[ensures(result >= a && result > b)]",
+					"highlight_start": 26,
+					"highlight_end": 36
+				}
+			],
+			"label": null,
+			"suggested_replacement": null,
+			"suggestion_applicability": null,
+			"expansion": null
+		}
+	],
+	"children": [
+		{
+			"message": "the error originates here",
+			"code": null,
+			"level": "note",
+			"spans": [
+				{
+					"file_name": "/Users/ak/Developer/Projects/Lalambda/hackaton/test-prj/src/main.rs",
+					"byte_start": 285,
+					"byte_end": 351,
+					"line_start": 14,
+					"line_end": 20,
+					"column_start": 1,
+					"column_end": 2,
+					"is_primary": true,
+					"text": [
+						{
+							"text": "fn max(a: i32, b: i32) -> i32 {",
+							"highlight_start": 1,
+							"highlight_end": 32
+						},
+						{
+							"text": "\tif a > b {",
+							"highlight_start": 1,
+							"highlight_end": 12
+						},
+						{
+							"text": "\t\ta",
+							"highlight_start": 1,
+							"highlight_end": 4
+						},
+						{
+							"text": "\t} else {",
+							"highlight_start": 1,
+							"highlight_end": 10
+						},
+						{
+							"text": "\t\tb",
+							"highlight_start": 1,
+							"highlight_end": 4
+						},
+						{
+							"text": "\t}",
+							"highlight_start": 1,
+							"highlight_end": 3
+						},
+						{
+							"text": "}",
+							"highlight_start": 1,
+							"highlight_end": 2
+						}
+					],
+					"label": null,
+					"suggested_replacement": null,
+					"suggestion_applicability": null,
+					"expansion": null
+				}
+			],
+			"children": [],
+			"rendered": null
+		},
+		{
+			"message": "counterexample for \"a\"\n  initial value: 719\n  final value:   719",
+			"code": null,
+			"level": "note",
+			"spans": [
+				{
+					"file_name": "/Users/ak/Developer/Projects/Lalambda/hackaton/test-prj/src/main.rs",
+					"byte_start": 292,
+					"byte_end": 293,
+					"line_start": 14,
+					"line_end": 14,
+					"column_start": 8,
+					"column_end": 9,
+					"is_primary": true,
+					"text": [
+						{
+							"text": "fn max(a: i32, b: i32) -> i32 {",
+							"highlight_start": 8,
+							"highlight_end": 9
+						}
+					],
+					"label": null,
+					"suggested_replacement": null,
+					"suggestion_applicability": null,
+					"expansion": null
+				}
+			],
+			"children": [],
+			"rendered": null
+		},
+		{
+			"message": "counterexample for \"b\"\n  initial value: 719\n  final value:   719",
+			"code": null,
+			"level": "note",
+			"spans": [
+				{
+					"file_name": "/Users/ak/Developer/Projects/Lalambda/hackaton/test-prj/src/main.rs",
+					"byte_start": 300,
+					"byte_end": 301,
+					"line_start": 14,
+					"line_end": 14,
+					"column_start": 16,
+					"column_end": 17,
+					"is_primary": true,
+					"text": [
+						{
+							"text": "fn max(a: i32, b: i32) -> i32 {",
+							"highlight_start": 16,
+							"highlight_end": 17
+						}
+					],
+					"label": null,
+					"suggested_replacement": null,
+					"suggestion_applicability": null,
+					"expansion": null
+				}
+			],
+			"children": [],
+			"rendered": null
+		},
+		{
+			"message": "counterexample for result\n  final value:   719",
+			"code": null,
+			"level": "note",
+			"spans": [
+				{
+					"file_name": "/Users/ak/Developer/Projects/Lalambda/hackaton/test-prj/src/main.rs",
+					"byte_start": 311,
+					"byte_end": 314,
+					"line_start": 14,
+					"line_end": 14,
+					"column_start": 27,
+					"column_end": 30,
+					"is_primary": true,
+					"text": [
+						{
+							"text": "fn max(a: i32, b: i32) -> i32 {",
+							"highlight_start": 27,
+							"highlight_end": 30
+						}
+					],
+					"label": null,
+					"suggested_replacement": null,
+					"suggestion_applicability": null,
+					"expansion": null
+				}
+			],
+			"children": [],
+			"rendered": null
+		}
+	],
+	"rendered": "error: [Prusti: verification error] postcondition might not hold.\n  --> /Users/ak/Developer/Projects/Lalambda/hackaton/test-prj/src/main.rs:12:26\n   |\n12 | #[ensures(result >= a && result > b)]\n   |                          ^^^^^^^^^^\n   |\nnote: the error originates here\n  --> /Users/ak/Developer/Projects/Lalambda/hackaton/test-prj/src/main.rs:14:1\n   |\n14 | / fn max(a: i32, b: i32) -> i32 {\n15 | |     if a > b {\n16 | |         a\n17 | |     } else {\n18 | |         b\n19 | |     }\n20 | | }\n   | |_^\nnote: counterexample for \"a\"\n  initial value: 719\n  final value:   719\n  --> /Users/ak/Developer/Projects/Lalambda/hackaton/test-prj/src/main.rs:14:8\n   |\n14 | fn max(a: i32, b: i32) -> i32 {\n   |        ^\nnote: counterexample for \"b\"\n  initial value: 719\n  final value:   719\n  --> /Users/ak/Developer/Projects/Lalambda/hackaton/test-prj/src/main.rs:14:16\n   |\n14 | fn max(a: i32, b: i32) -> i32 {\n   |                ^\nnote: counterexample for result\n  final value:   719\n  --> /Users/ak/Developer/Projects/Lalambda/hackaton/test-prj/src/main.rs:14:27\n   |\n14 | fn max(a: i32, b: i32) -> i32 {\n   |                           ^^^\n\n"
+}
