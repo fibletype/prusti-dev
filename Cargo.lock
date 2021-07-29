@@ -1831,6 +1831,7 @@ dependencies = [
  "log 0.4.14",
  "regex",
  "serde 1.0.126",
+ "serde_json",
  "uuid 0.8.2",
  "viper",
 ]
@@ -1890,6 +1891,10 @@ dependencies = [
  "toml",
  "walkdir",
 ]
+
+[[package]]
+name = "prusti-pretti-report"
+version = "0.1.0"
 
 [[package]]
 name = "prusti-server"

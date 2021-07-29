@@ -37,6 +37,8 @@ fn success_with_complex_program() {
 
     let pretty_printed = ast_utils.pretty_print(program);
 
+	 println!("pretty_printed:\n{}", &pretty_printed);
+
     assert!(pretty_printed.contains("method foobar(arg: Int)"));
     assert!(pretty_printed.contains("returns (res: Int)"));
     assert!(pretty_printed.contains("requires false"));

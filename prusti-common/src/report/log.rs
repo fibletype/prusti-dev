@@ -11,7 +11,7 @@ use std::fs;
 use std::io::{self, Write};
 use std::path::PathBuf;
 
-fn log_dir() -> Option<PathBuf> {
+pub(crate) fn log_dir() -> Option<PathBuf> {
     let log_dir: PathBuf = config::log_dir().into();
     fs::create_dir_all(&log_dir).ok()?;
     if log_dir.is_dir() {
