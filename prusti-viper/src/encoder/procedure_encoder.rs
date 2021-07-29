@@ -492,7 +492,7 @@ impl<'p, 'v: 'p, 'tcx: 'v> ProcedureEncoder<'p, 'v, 'tcx> {
                 foldunfold::FoldUnfoldError::Unsupported(msg) => {
                     SpannedEncodingError::unsupported(msg, mir_span)
                 }
-                
+
                 _ => SpannedEncodingError::internal(
                     format!(
                         "generating fold-unfold Viper statements failed ({:?})",
@@ -4169,7 +4169,7 @@ impl<'p, 'v: 'p, 'tcx: 'v> ProcedureEncoder<'p, 'v, 'tcx> {
         loop_head: BasicBlockIndex,
         loop_inv: BasicBlockIndex,
         drop_read_references: bool,
-    ) -> EncodingResult<(Vec<vir::Expr>, Vec<vir::Expr>)> {
+    ) -> EncodingResult<(Vec<vir::Expr>, Vec<vir::Expr>, Vec<vir::Expr>)> {
         trace!(
             "[enter] encode_loop_invariant_permissions \
              loop_head={:?} drop_read_references={}",
@@ -4365,6 +4365,22 @@ impl<'p, 'v: 'p, 'tcx: 'v> ProcedureEncoder<'p, 'v, 'tcx> {
             );
         }
 
+        // encode type invariants
+        let mut invs_spec = Vec::new();
+        for permission in &permissions {
+            match permission {
+                vir::Expr::PredicateAccessPredicate(predicate, arg, _perm_amount, _pos) => {
+                    let ty = self.encoder.decode_type_predicate(predicate)?;
+                    let inv_func_app = self.encoder.encode_invariant_func_app(
+                        ty,
+                        (**arg).clone(),
+                    )?;
+                    invs_spec.push(inv_func_app);
+                }
+                _ => {},
+            }
+        }
+
         trace!(
             "[exit] encode_loop_invariant_permissions permissions={}",
             permissions
@@ -4381,7 +4397,7 @@ impl<'p, 'v: 'p, 'tcx: 'v> ProcedureEncoder<'p, 'v, 'tcx> {
                 .collect::<String>()
         );
 
-        Ok((permissions, equalities))
+        Ok((permissions, equalities, invs_spec))
     }
 
     /// Get the basic blocks that encode the specification of a loop invariant
@@ -4484,7 +4500,7 @@ impl<'p, 'v: 'p, 'tcx: 'v> ProcedureEncoder<'p, 'v, 'tcx> {
         }
         let (func_spec, func_spec_span) =
             self.encode_loop_invariant_specs(loop_head, loop_inv_block)?;
-        let (permissions, equalities) =
+        let (permissions, equalities, invs_spec) =
             self.encode_loop_invariant_permissions(loop_head, loop_inv_block, true)
                 .with_span(func_spec_span.clone())?;
 
@@ -4537,6 +4553,10 @@ impl<'p, 'v: 'p, 'tcx: 'v> ProcedureEncoder<'p, 'v, 'tcx> {
             func_spec.into_iter().conjoin(),
             assert_pos,
         ));
+        stmts.push(vir::Stmt::Assert(
+            invs_spec.into_iter().conjoin(),
+            exhale_pos,
+        ));
         let equalities_expr = equalities.into_iter().conjoin();
         stmts.push(vir::Stmt::Assert(
             equalities_expr,
@@ -4560,7 +4580,7 @@ impl<'p, 'v: 'p, 'tcx: 'v> ProcedureEncoder<'p, 'v, 'tcx> {
         );
         let (func_spec, func_spec_span) =
             self.encode_loop_invariant_specs(loop_head, loop_inv_block)?;
-        let (permissions, equalities) =
+        let (permissions, equalities, invs_spec) =
             self.encode_loop_invariant_permissions(loop_head, loop_inv_block, true)
                 .with_span(func_spec_span)?;
 
@@ -4576,6 +4596,9 @@ impl<'p, 'v: 'p, 'tcx: 'v> ProcedureEncoder<'p, 'v, 'tcx> {
         ));
         stmts.push(vir::Stmt::Inhale(
             equality_expr,
+        ));
+        stmts.push(vir::Stmt::Inhale(
+            invs_spec.into_iter().conjoin(),
         ));
         stmts.push(vir::Stmt::Inhale(
             func_spec.into_iter().conjoin(),
