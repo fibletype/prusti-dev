@@ -96,13 +96,12 @@ fn process_json(json: String) -> Result<(), std::io::Error> {
     let parser = Parser::new_ext(&init_str, options);
     let mut html_output = String::new();
     html::push_html(&mut html_output, parser);
+    let tmt = include_str!("template.html");
+    html_output = tmt.replace("!!!!!REPLACE!!!!!", &html_output);
     let mut file = File::create("ex.html");
     if let Ok(mut file) = file {
         file.write(&html_output.as_bytes());
-    }
-
-    /* let tmt = include_str!("tmt.html");
-    tmt.replace("!!!!!REPLACE!!!!!", html_con); */
+    } 
 
     Ok(())
 }
