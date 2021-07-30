@@ -42,15 +42,17 @@ fn init_template(status: bool) -> String {
     }
 }
 
-fn main() -> Result<(), std::io::Error> {
-    process::process();
-    return Ok(());
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let result = process::process();
+    //  return Ok(());
 
     //  let json = File::open("prusti-pretti-report/tests/eg.json");
     //  let mut contents = String::new();
     //  let _ = json.map(|mut f| f.read_to_string(&mut contents)).unwrap();
 
-    //  process_json(contents)?;
+    result?
+        .map(process_json)
+        .ok_or("results processing failed")??;
     Ok(())
 }
 
