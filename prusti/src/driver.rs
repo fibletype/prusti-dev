@@ -146,12 +146,15 @@ fn main() {
 
     let exit_code = rustc_driver::catch_with_exit_code(move || {
 
+        // XXX: temporally disabled
+        /*
         user::message(format!(
             "{}\n{}\n{}\n\n",
             r"  __          __        __  ___             ",
             r" |__)  _\/_  |__) |  | /__`  |   ____\/_  | ",
             r" |      /\   |  \ \__/ .__/  |       /\   | ",
         ));
+        */
         info!("Prusti version: {}", get_prusti_version_info());
 
         env::set_var("POLONIUS_ALGORITHM", "Naive");
