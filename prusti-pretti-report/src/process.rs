@@ -54,10 +54,10 @@ impl std::str::FromStr for Tool {
     }
 }
 
-pub fn process() {
+pub fn process() -> Result<Option<String>, String> {
     let args = std::env::args().collect::<Vec<String>>();
     let opt = Opts::from_iter(args[..2].iter());
-    let (processed, args) = args.split_at(2);
+    let (_processed, args) = args.split_at(2);
 
     let args = opt.tool.args(&args);
     let name = opt.tool.name();
@@ -80,9 +80,6 @@ pub fn process() {
     args.into_iter().for_each(|arg| {
         command.arg(arg);
     });
-    // command.arg("--error-format=json");
-    // // command.arg("/path/to/media-file");
-    // // command.arg("/path/to/output-file");
 
     command.stdout(Stdio::piped());
     command.stderr(Stdio::piped());
@@ -99,12 +96,30 @@ pub fn process() {
         eprintln!("Interrupted!");
     }
 
-    println!("STDOUT:\n{}", String::from_utf8(output.stdout).unwrap());
-    println!("STDERR:\n{}", String::from_utf8(output.stderr).unwrap());
+    let stdout = String::from_utf8(output.stdout).expect("utf8 string");
+    let stderr = String::from_utf8(output.stderr).expect("utf8 string");
+    println!("STDOUT:\n{}", stdout);
+   //  println!("STDERR:\n{}", stderr);
 
+    // find errors json:
+    // Verification of 4 items...
+    // ...
+    // Verification failed
 
-	// find errors json:
-	// Verification of 4 items
-	// ...
-	// Verification failed
+    let mut result = None;
+    if let Some(end) = stderr.find("Verification failed") {
+        if let Some(content) = stderr
+            .lines()
+            .find(|l| l.starts_with("Verification of"))
+            // .map(|l| stderr.find(l)/* .map(|i| i + l.len()) */)
+            .map(|l| stderr.get(l.len()..end))
+            .flatten()
+        {
+            result = Some(content.to_string());
+        }
+    } else {
+        println!("OK");
+    }
+
+    Ok(result)
 }
