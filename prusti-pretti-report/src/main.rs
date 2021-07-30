@@ -54,9 +54,6 @@ fn main() -> Result<(), std::io::Error> {
     Ok(())
 }
 
-
-
-
 fn process_json(json: String) -> Result<(), std::io::Error> {
     let mut options = Options::empty();
 
@@ -102,8 +99,8 @@ fn process_json(json: String) -> Result<(), std::io::Error> {
         file.write(&html_output.as_bytes());
     }
 
-	 /* let tmt = include_str!("tmt.html");
-	 tmt.replace("!!!!!REPLACE!!!!!", html_con); */
+    /* let tmt = include_str!("tmt.html");
+    tmt.replace("!!!!!REPLACE!!!!!", html_con); */
 
     Ok(())
 }
@@ -116,11 +113,9 @@ fn process_json(json: String) -> Result<(), std::io::Error> {
 mod tests {
     use super::*;
 
+    #[test]
     fn parse_should_not_crash() {
-        let json = File::open("prusti-pretti-report/tests/eg.json");
-        let mut contents = String::new();
-        let _ = json.map(|mut f| f.read_to_string(&mut contents)).unwrap();
-
-        process_json(contents).expect("parse json & render");
+        let contents = include_str!("../tests/eg.json");
+        process_json(contents.to_string()).expect("parse json & render");
     }
 }
