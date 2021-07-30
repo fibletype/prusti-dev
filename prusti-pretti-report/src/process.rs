@@ -62,8 +62,8 @@ pub fn process() -> Result<Option<String>, String> {
     let args = opt.tool.args(&args);
     let name = opt.tool.name();
 
-    println!("ARGS: {:?}", args);
-    println!("PWD: {:?}", std::env::current_dir());
+    //  println!("ARGS: {:?}", args);
+    //  println!("PWD: {:?}", std::env::current_dir());
     let mut path = process_path::get_executable_path()
         .unwrap_or(std::env::current_exe().expect("The process path could not be determined"));
     // pop the self name:
@@ -74,7 +74,7 @@ pub fn process() -> Result<Option<String>, String> {
         path.set_extension("exe");
     }
 
-    println!("TOOL: {:?}", &path);
+    //  println!("TOOL: {:?}", &path);
 
     let mut command = Command::new(path);
     args.into_iter().for_each(|arg| {
@@ -99,7 +99,7 @@ pub fn process() -> Result<Option<String>, String> {
     let stdout = String::from_utf8(output.stdout).expect("utf8 string");
     let stderr = String::from_utf8(output.stderr).expect("utf8 string");
     println!("STDOUT:\n{}", stdout);
-   //  println!("STDERR:\n{}", stderr);
+    println!("STDERR:\n{}", stderr);
 
     // find errors json:
     // Verification of 4 items...

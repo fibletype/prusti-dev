@@ -1,0 +1,30 @@
+# [workspace]
+# members = ["vir-printer"]
+
+[package]
+name = "test-prj"
+version = "0.1.0"
+edition = "2018"
+authors = [
+	"Alex Koz. <a@koz.ru>",
+	"Egor ..."
+]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+
+[dependencies.vir-printer]
+path = "vir-printer"
+
+[dependencies.prusti-contracts]
+optional = true
+git = "https://github.com/viperproject/prusti-dev.git"
+# path = "/Users/ak/Developer/Projects/Lalambda/hackaton/prusti-dev/prusti-contracts"
+
+
+[features]
+default = [
+	# "prusti"
+]
+prusti = ["prusti-contracts"]

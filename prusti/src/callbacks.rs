@@ -50,17 +50,17 @@ impl rustc_driver::Callbacks for PrustiCompilerCalls {
             intravisit::walk_crate(&mut spec_collector, &krate);
             let def_spec = spec_collector.build_def_specs(&env);
 
-				{
-					println!("\n def_specs:");
-					for (key, spec) in def_spec.specs.iter() {
-						println!("{:?}: {:?}", key, spec);
-					}
+				// {
+				// 	println!("\n def_specs:");
+				// 	for (key, spec) in def_spec.specs.iter() {
+				// 		println!("{:?}: {:?}", key, spec.display());
+				// 	}
 
-					println!("\n def_specs external:");
-					for (key, spec) in def_spec.extern_specs.iter() {
-						println!("{:?}: {:?}", key, spec);
-					}
-				}
+				// 	println!("\n def_specs external:");
+				// 	for (key, spec) in def_spec.extern_specs.iter() {
+				// 		println!("{:?}: {:?}", key, spec);
+				// 	}
+				// }
 
             if config::print_typeckd_specs() {
                 let mut values: Vec<_> = def_spec

@@ -44,15 +44,8 @@ fn init_template(status: bool) -> String {
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = process::process();
-    //  return Ok(());
 
-    //  let json = File::open("prusti-pretti-report/tests/eg.json");
-    //  let mut contents = String::new();
-    //  let _ = json.map(|mut f| f.read_to_string(&mut contents)).unwrap();
-
-    result?
-        .map(process_json)
-        .ok_or("results processing failed")??;
+    result?.map(process_json).ok_or("OK")??;
     Ok(())
 }
 
@@ -61,7 +54,10 @@ fn process_json(json: String) -> Result<(), std::io::Error> {
 
     options.insert(Options::ENABLE_STRIKETHROUGH);
 
-    let info: VerificationResult = serde_json::from_str(&json)?;
+    let info: VerificationResult = serde_json::from_str(&json).map_err(|err| {
+        eprintln!("ERRRRRROOOORRRR: {:?}", err);
+		  err
+    })?;
     let prog_name = "example".to_string();
     if json.trim().is_empty() {
         let mut init_str = init_template(true);
