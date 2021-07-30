@@ -27,6 +27,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "allax"
+version = "0.1.0"
+dependencies = [
+ "pulldown-cmark",
+ "serde 1.0.126",
+ "serde_derive",
+ "serde_json",
+]
+
+[[package]]
 name = "analysis"
 version = "0.1.0"
 dependencies = [
@@ -1893,10 +1903,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "prusti-pretti-report"
-version = "0.1.0"
-
-[[package]]
 name = "prusti-server"
 version = "0.1.0"
 dependencies = [
@@ -1963,6 +1969,18 @@ checksum = "95b4ce31ff0a27d93c8de1849cf58162283752f065a90d508f1105fa6c9a213f"
 dependencies = [
  "idna 0.2.3",
  "url 2.2.2",
+]
+
+[[package]]
+name = "pulldown-cmark"
+version = "0.8.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ffade02495f22453cd593159ea2f59827aae7f53fa8323f756799b670881dcf8"
+dependencies = [
+ "bitflags",
+ "getopts",
+ "memchr",
+ "unicase 2.6.0",
 ]
 
 [[package]]
